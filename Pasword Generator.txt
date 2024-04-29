@@ -1,0 +1,40 @@
+
+import java.util.Scanner;
+import java.util.Random;
+public class Password {
+	public static void main(String...x) {
+		Scanner obj=new Scanner(System.in);
+		Random r=new Random();
+		System.out.println("welcome to passwrod generator");
+		String letters[]= {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+		String numbers[]= {"1","2","3","4","5","6","7","8","9","10"};
+		String symbols[]= {"!","@","#","$","%","&","*","(",")"};
+		String pass=" ";
+		System.out.println("how many letters do you want in your password");
+		int a=obj.nextInt();
+		for(int i=1;i<a+1;i++) {
+			String ch=letters[r.nextInt(0,letters.length-1)];
+			pass =pass+ch;
+		}
+			System.out.println("how many digits do you want in your password");
+			int b=obj.nextInt();
+			for (int j=1;j<b+1;j++) {
+				String num=numbers[r.nextInt(0,numbers.length-1)];
+			pass =pass+num;
+			}
+			System.out.println("how many symbols do you want in your password");
+			for (int k=1;k<b+1;k++) {
+				String sym=symbols[r.nextInt(0,symbols.length-1)];
+			pass =pass+sym;
+			}
+			System.out.println("password is "+pass);
+			
+				
+				
+				
+			}
+		}
+		
+	
+
+
