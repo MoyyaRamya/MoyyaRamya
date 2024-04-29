@@ -1,0 +1,51 @@
+import java.util.Scanner;
+public class ShoppingMall {
+	public static void main(String...x) {
+		Scanner obj=new Scanner(System.in);
+		System.out.println("enter shopping bill");
+		int bill= obj.nextInt();
+		int d=0;
+		int da=0;
+		int tb=0;
+		if((bill>0)&&(bill<=2000)){
+			d=2;
+			da=bill*d/100;
+					tb=bill-da;
+		}
+		else if((bill>2000)&&(bill<=4000)){
+			d=4;
+			da=bill*d/100;
+			tb=bill-da;
+		}
+		else if((bill>4000)&&(bill<=6000)){
+			d=6;
+			da=bill*d/100;
+			tb=bill-da;
+		}
+		else if((bill>6000)&&(bill<=8000)){
+			d=8;
+			da=bill*d/100;
+			tb=bill-da;
+		}
+		else if((bill>8000)&&(bill<=10000)){
+			d=10;
+			da=bill*d/100;
+			tb=bill-da;
+		}
+		else if(bill>10000) {
+			d=20;
+			da=bill*d/100;
+			tb=bill-da;
+		}
+		System.out.println("your bill is "+bill);
+		System.out.println("the discount is "+d);
+		System.out.println("the discount amount is "+da);
+		System.out.println("the payble amount is "+tb);
+		
+		}
+		
+		
+		
+	}
+
+
