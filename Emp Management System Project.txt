@@ -1,0 +1,432 @@
+import java.util.Scanner;
+
+import java.sql.*;
+
+public class Employee {
+
+   public static void main(String...x)throws ClassNotFoundException,SQLException, InterruptedException{
+
+                  Class.forName("com.mysql.cj.jdbc.Driver");
+
+                  String url="jdbc:mysql://localhost:3306/project";
+
+                  String user="root";
+
+                  String pass="sriramya";
+
+                  Connection c=DriverManager.getConnection(url,user,pass);
+
+                  boolean a=true;
+
+                  while(a) {
+
+                    System.out.println("WELCOME TO EMPLOYEE MANAGEMENT SYSTEM....");
+
+                    System.out.println("press 1 to Add Employee");
+
+                    System.out.println("press 2 to View Employee Details");
+
+                    System.out.println("press 3 to Delete Employee Details");
+
+                    System.out.println("press 4 to Update Employee Details");
+                    
+                    System.out.println("press 5 to Salary Cleared");
+                    
+                    System.out.println("press 6 to Get Particular Employee Details");
+
+                    System.out.println("press 0 to Exit");
+
+                    Scanner sc=new Scanner(System.in);
+
+                    int u=sc.nextInt();
+
+                   switch(u) {
+
+                             case 1:
+
+                                       AddEmployee(sc,c);
+
+                                       break;
+                             case 2:
+                            	 
+                            	      ViewEmployeeDetails(c);
+                            	 
+                            	      break;
+                            	 
+                             case 3:
+                            	 
+                            	     DeleteEmployeeDetails(sc,c);
+                            	 
+                            	     break;
+                            	 
+                             case 4:
+                            	 
+                            	     UpdateEmployeeDetails(sc,c);
+                            	 
+                            	     break;
+                            	 
+                             case 5:
+                            	 
+                            	     SalaryCleared(sc,c);
+                            	 
+                            	     break;
+                            	 
+                             case 6:
+                            	 
+                            	    GetParticularEmployeeDetails(sc,c);
+                            	 
+                            	    break;
+                            	 
+                             case 0:
+                            		  
+                            		   Exit();
+                            	  
+                            	       a=false;
+
+                                       break;
+                                       
+                                      default:
+
+                             System.out.println("enter valid choice");
+
+                    }
+
+                  }       
+
+   }
+
+
+			public static void AddEmployee(Scanner sc, Connection c) throws SQLException {
+	   
+	                       System.out.println("Enter Employee Name");
+	                       
+	                       String Name1=sc.next();
+
+                           System.out.println("Enter Employee Salary ");
+
+                           int Salary1=sc.nextInt();
+
+                           System.out.println("Enter Employee Salaryupdation ");
+
+                           String Salaryupdation1=sc.next();
+
+                           String q1="insert into emp(emp_name,emp_salary,empsalary_updation) values(?,?,?);";
+                       
+                           PreparedStatement p1=c.prepareStatement(q1);
+
+                           p1.setString(1,Name1);
+
+                           p1.setInt(2, Salary1);
+
+                           p1.setString(3, Salaryupdation1);
+
+                           int rows1=p1.executeUpdate();
+
+                           if(rows1>0) {
+
+                                     System.out.println("Employee Data is Added");
+
+                           }
+
+                           else {
+
+                                     System.out.println("Employee data is not Added");
+
+                           }
+
+                  }
+
+
+
+               public static void ViewEmployeeDetails(Connection c) throws SQLException {
+	
+	            
+            	   
+            	 String q2="select * from emp;";
+
+	             Statement s2=c.createStatement();
+	             
+	             ResultSet r2=s2.executeQuery(q2);
+	
+	            while(r2.next()) {
+		
+		     
+	          System.out.println("+------------+-----------------+--------------+-------+");		     
+		     
+		      System.out.println("|empid | emp_name | emp_salary | empsalary_updation   |");
+		      
+		      System.out.println("+------+----------+------------+---------------------+");
+		
+
+		
+		      int empid2=r2.getInt("empid");
+		
+		      String emp_name2=r2.getString("emp_name");
+		
+		      int emp_salary2=r2.getInt("emp_salary");
+		
+	      	  String empsalary_updation2=r2.getString("empsalary_updation");
+		
+	        	System.out.println("|"+empid2+" |"+emp_name2+"-----| "+emp_salary2+"--- | "+empsalary_updation2+"          |");
+           }
+               }
+
+               
+               
+             public static void DeleteEmployeeDetails(Scanner sc,Connection c)throws SQLException{
+
+                         sc.nextLine();
+
+                         System.out.println("Enter Employee Name");
+
+                         String name3=sc.nextLine();
+
+                         System.out.println("Enter Employee id");
+
+                         int id3=sc.nextInt();
+
+                         
+                         
+                         String q3="delete from emp where emp_name=? AND empid=?";
+
+                         PreparedStatement p3=c.prepareStatement(q3);
+
+                         p3.setString(1,name3);
+
+                         p3.setInt(2, id3);
+
+                         int rows3=p3.executeUpdate();
+
+                         if(rows3>0) {
+
+                                  System.out.println("Employee Data is Deleted");
+
+                         }
+
+                         else {
+
+                                  System.out.println("Employee Data is not Deleted");
+
+                         }
+
+                     }
+             
+             
+             public static void UpdateEmployeeDetails(Scanner sc,Connection c) throws SQLException {
+
+                  System.out.println("Enter Employee id to Update");
+
+                  int id4=sc.nextInt();
+
+                  boolean a=true;
+
+                  while(a) {
+
+                          if(!(Exists(c,id4))) {
+
+                          System.out.println("Employee does not Exists with this id");
+
+                          System.out.println("Enter valid Employee id");
+
+                          int id41=sc.nextInt();
+
+                          id4=id41;
+
+                 }
+
+                 else {
+
+                          a=false;
+
+                 }
+                          System.out.println("Enter Employee New Name");
+
+                          String name4=sc.next();
+
+                          System.out.println("Enter Employee  New Salary");
+
+                          int salary4=sc.nextInt();
+
+                          System.out.println("Enter Employee New Salaryupdation");
+
+                          String salaryupdation4=sc.next();
+
+                 
+
+               String q4="update emp set emp_name=?,emp_salary=?,empsalary_updation=? where empid="+id4+";";
+
+               PreparedStatement p4=c.prepareStatement(q4);
+
+               p4.setString(1,name4);
+
+               p4.setInt(2, salary4);
+
+               p4.setString(3,salaryupdation4);
+                 
+               int rows4=p4.executeUpdate();
+
+               if(rows4>0) {
+
+                          System.out.println("Data Updated Successfully..");
+
+                 }
+
+                 else {
+
+                          System.out.println("Data is not Updated Successfully..");
+
+                 }
+
+            }
+     }
+             
+             
+             
+             public static void SalaryCleared(Scanner sc, Connection c) throws SQLException {
+           	   
+                 System.out.println("Enter Employee Name");
+                 
+                 String Name5=sc.next();
+
+                 System.out.println("Enter Employee Salary ");
+
+                 int Salary5=sc.nextInt();
+
+                 System.out.println("Enter Employee Salaryupdation ");
+
+                 String Salaryupdation5=sc.next();
+
+        
+                 
+                 
+           String q5="insert into emp(emp_name,emp_salary,empsalary_updation) values(?,?,?);";
+             
+                 PreparedStatement p1=c.prepareStatement(q5);
+
+                 p1.setString(1,Name5);
+
+                 p1.setInt(2, Salary5);
+
+                 p1.setString(3, Salaryupdation5);
+
+                 int rows1=p1.executeUpdate();
+
+                 if(rows1>0) {
+
+                           System.out.println("Employee Salary is Cleared");
+
+                 }
+
+                 else {
+
+                           System.out.println("Employee Salary is not Cleared");
+
+                 }
+
+        }
+
+
+             
+          public static void GetParticularEmployeeDetails(Scanner sc,Connection c) throws SQLException {
+        	  
+        	  System.out.println("enter employee id ");
+
+                 int id6=sc.nextInt();
+
+                 boolean a=true;
+
+                 while(a) {
+                	 
+                	 if(!(Exists(c,id6))) {
+
+                          System.out.println("Employee does not Exists with this id");
+
+                          System.out.println("Enter valid Employee id");
+
+                          int id61=sc.nextInt();
+
+                          id6=id61;
+}
+                	 
+                	 else {
+                		 
+                		 a=false;
+
+                 }
+
+               }
+
+                  String q6="select * from emp where empid="+id6+";";
+
+                 Statement s6=c.createStatement();
+
+                  ResultSet r6=s6.executeQuery(q6);
+                  
+                  while(r6.next()) {
+                	  
+                	 System.out.println("+------+----------+------------+---------------------+");
+                	 
+                	 System.out.println("|empid | emp_name | emp_salary | empsalary_updation  |");
+                	 
+                	 System.out.println("+------+----------+------------+---------------------+");
+                	  
+                	
+                      int id62=r6.getInt("empid");
+                	  
+                	  String Name6=r6.getString("emp_name");
+                	  
+                	  int Salary6=r6.getInt("emp_Salary");
+                	  
+                	  String Salaryupdation6=r6.getString("empSalary_updation");
+                	  
+                	  System.out.println("|"+id62+" |"+Name6+"-----| "+Salary6+"--- | "+Salaryupdation6+" ----------|");
+                	  
+                  }
+          }
+
+          
+          
+          public static boolean Exists(Connection c, int id6)throws SQLException {
+        	  
+        	  String q0="select empid from emp where empid="+id6+";";
+        	  
+        	  Statement s0=c.createStatement();
+        	  
+        	  ResultSet r0=s0.executeQuery(q0);
+        	  
+        	  return r0.next();
+          }
+        	  
+        	  public static void Exit() throws InterruptedException {
+        		  
+        		  System.out.println("Existing System");
+        		  
+        		  int i=5;
+        		  
+        		  while(i!=0) {
+        			  
+        			  System.out.print(".");
+        			  
+        			  Thread.sleep(450);
+        			  
+        			  i--;
+        	  }
+				       System.out.println("THANK YOU FOR USING EMPLOYEE MANAGEMENT SYSTEM...");
+        	  
+      }
+}
+
+
+
+		
+            
+
+             
+
+           
+
+
+
+                     
+
+                                     
