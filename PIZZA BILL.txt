@@ -1,0 +1,85 @@
+import java.util.Scanner;
+public class Pizza{
+public static void main(String...x) {
+	Scanner obj=new Scanner(System.in);
+	int bill=0;
+	boolean a=true;
+	System.out.println("welcome to pizza hut");
+	while(a) {
+	System.out.println("which size of pizza do you want?");
+	System.out.println("small-50,medium-150,large-200");
+	String size=obj.next();
+	size.toLowerCase();
+	//small-01234
+	String b=size.substring(0,size.length());
+	if(b.equals("small")){
+		bill=bill+50;
+		System.out.println("total bill is"+bill);
+	}
+	else if(b.equals("medium")){
+		bill=bill+150;
+		System.out.println("total bill is "+bill);
+	}
+	else if(b.equals("large")) {
+		bill=bill+200;
+		System.out.println("total bill is"+bill);
+	}
+		System.out.println("do you want extra cheese");
+		System.out.println("small-10,medium-20,lagre-50");
+		System.out.println("enter 1(yes),2(no)");
+		int cheese=obj.nextInt();
+		if(cheese==1) {
+			if(b.equals("small")) {
+				bill=bill+10;
+			}
+			if(b.equals("medium")) {
+				bill=bill+20;
+			}
+			if(b.equals("large")) {
+				bill=bill+50;
+			}
+			System.out.println("the total bill is "+bill);
+		}
+		else if(cheese==2) {
+			System.out.println("the total bill is "+bill);
+		}
+			System.out.println("do you want extra pepperoni?");
+			System.out.println("small-10,medium-20,lagre-30");
+			System.out.println("enter 1(yes),2(no)");
+			int pep=obj.nextInt();
+			if(pep==1) {
+				bill=bill+10;
+				System.out.println("total bill is"+bill);}
+			else if(pep==2) {
+				System.out.println("total bill is"+bill);
+			}
+			System.out.println("do you want to take next order?");
+			System.out.println("enter 1 for yes,2 for no");
+			int order=obj.nextInt();
+			if(order==2) {
+				a=false;
+				System.out.println("THANK YOU FOR VISITING...");
+			}
+			else if(order==1) {
+				System.out.println("same bill continuation enter 1");
+				System.out.println("different bill enter 2");
+				int c=obj.nextInt();
+				if(c==1) {
+					System.out.println("we are continuing with same bill");
+					bill=bill;
+				}
+				else if(c==2) {
+					bill=bill-bill;
+				}
+	
+				
+			
+				
+			}
+		}
+		
+
+	
+}
+
+}
